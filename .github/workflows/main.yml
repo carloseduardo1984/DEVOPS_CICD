@@ -1,0 +1,41 @@
+name:  CI-CD __ DevOps
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+        
+  build:
+    name: Build 
+    runs-on: ubuntu-latest
+    steps:
+        - run: echo CONSTRUINDO O SOFTWARE NO AMBIENTE DE DEV
+      
+  deploy-dev:
+    name: Test em DEV
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo REALIZANDO TESTES UNITARIOS
+      
+  testing-qa:
+    name: Moving to QA and Test
+    needs: [deploy-dev]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo MOVENDO E TESTES DE INTEGRACAO EM AMBIENTE QA
+        
+  deploy-stage:
+    name: Deploy to stage
+    needs: [testing-qa]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo MOVENDO PARA AMBIENTE DE PRE-PRODUCAO
+      
+  deploy-production:
+    name: Deploy to production
+    needs: [deploy-stage]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo LANCAMENTO DO SOFTWARE
